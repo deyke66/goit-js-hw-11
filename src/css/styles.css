@@ -14,27 +14,3 @@ body {
   color: #212121;
   line-height: 1.5;
 }
-
-#search-box {
-  font: inherit;
-  padding: 8px;
-  max-width: 320px;
-  margin-bottom: 16px;
-}
-.country-list{
-  list-style: none;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-}
-.flex-box{
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  font-family: inherit;
-  font-size: 25px;
-  font-weight: 700;
-}
-.params{
-  font-weight: 700;
-}
