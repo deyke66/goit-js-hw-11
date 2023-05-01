@@ -69,6 +69,7 @@ input{
   display: flex;
 
   max-width: 1400px;
+  height: auto;
 
   flex-wrap: wrap;
   justify-content: center;
