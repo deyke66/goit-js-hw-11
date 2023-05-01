@@ -2,7 +2,7 @@ import './css/styles.css';
 import Notiflix, { Notify } from 'notiflix';
 import { fetchSearchParameters } from './js/fetchSearchParameters';
 import SimpleLightbox from "simplelightbox";
-import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
+import "simplelightbox/dist/simple-lightbox.min.css"
 import axios from 'axios';
 
 const axios = require('axios');
@@ -15,6 +15,8 @@ const refs = {
 }
 const { searchForm, formBtn, galleryBox, loadMoreBtn } = refs;
 
+let lightbox = new SimpleLightbox('.gallery a');
+
 let pageCount = 1;
 let inputValue = '';
 
@@ -22,9 +24,33 @@ loadMoreBtn.style.display = 'none';
 
 searchForm.addEventListener('submit', onSubmitButtonSearch);
 
+// function createMarkupForGallery(value) {
+//   const markup = value.map(({ webformatURL, tags, likes, views, comments, downloads }) => `<div class="photo-card">
+//   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+//   <div class="info">
+//     <p class="info-item">
+//       <b>Likes</b>${likes}
+//     </p>
+//     <p class="info-item">
+//       <b>Views</b>${views}
+//     </p>
+//     <p class="info-item">
+//       <b>Comments</b> ${comments}
+//     </p>
+//     <p class="info-item">
+//       <b>Downloads</b>${downloads}
+//     </p>
+//   </div>
+// </div>`).join('');
+//   return galleryBox.insertAdjacentHTML('beforeend', markup);
+// }
+
 function createMarkupForGallery(value) {
-  const markup = value.map(({ webformatURL, tags, likes, views, comments, downloads }) => `<div class="photo-card">
+  const markup = value.map(({ webformatURL, tags, likes, views, comments, downloads, largeImageURL }) => `<div class="photo-card">
+  <a href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+  </a>
+  
   <div class="info">
     <p class="info-item">
       <b>Likes</b>${likes}
@@ -55,6 +81,7 @@ async function onSubmitButtonSearch(e) {
   try {
     const fetchUrl = await fetchSearchParameters(inputValue, pageCount);
     const { data: { hits, totalHits, total } } = fetchUrl;
+    
 
     if (!total || inputValue === '') {
       formBtn.disabled = false;
@@ -62,6 +89,9 @@ async function onSubmitButtonSearch(e) {
     }
 
     createMarkupForGallery(hits);
+
+    lightbox.refresh();
+
     Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
     formBtn.disabled = false;
     loadMoreBtn.style.display = 'block';
@@ -98,3 +128,7 @@ loadMoreBtn.addEventListener('click', async () => {
 function clearHtml() {
   galleryBox.innerHTML = '';
 }
+
+
+{/* <a href="images/image1.jpg"><img src="images/thumbs/thumb1.jpg" alt="" title=""/></a>
+    <a href="images/image2.jpg"><img src="images/thumbs/thumb2.jpg" alt="" title="Beautiful Image"/></a> */}
