@@ -39,6 +39,7 @@ async function onSubmitButtonSearch(e) {
     
 
     if (!total || inputValue === '') {
+      loadMoreBtn.style.display = 'none';
       formBtn.disabled = false;
       return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
     }
