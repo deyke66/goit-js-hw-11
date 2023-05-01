@@ -105,12 +105,12 @@ async function onSubmitButtonSearch(e) {
     
 
   } catch (error) {
-    console.log(error)
+    return Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
   }
 
   loadMoreBtn.addEventListener('click', async () => {
-      loadMoreBtn.disabled = true;
-      pageCount += 1;
+    loadMoreBtn.disabled = true;
+    pageCount += 1;
       try {
         let fetchUrlForBtn = await fetchSearchParameters(inputValue, pageCount);
         let { data: { hits: hitsForBtn, totalHits, total } } = fetchUrlForBtn;
